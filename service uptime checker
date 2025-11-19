@@ -1,0 +1,19 @@
+#!/bin/bash              
+
+# List of services to check
+SERVICES=("ssh" "apache2") 
+
+check_service() {                                          
+    local service="$1"                                    
+    systemctl is-active --quiet "$service"  
+
+    if [ $? -eq 0 ]; then        
+        echo "Checking $service service... Running"
+    else
+        echo "Checking $service service... Not Running (Restart Required)"
+    fi   
+}
+
+for s in "${SERVICES[@]}"; do         
+    check_service "$s"      
+done
